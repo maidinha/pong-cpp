@@ -2,7 +2,10 @@
 
 #include "math.h"
 
-//Paddle
+/*----------------------------------------*/
+/*--------------- Paddle -----------------*/
+/*----------------------------------------*/
+
 struct Paddle
 {
     Vector2     pos;
@@ -16,7 +19,11 @@ struct Paddle
 Paddle* AllocPaddle(int x, int y);
 void    DeallocPaddle(Paddle* paddle);
 
-//Ball
+
+/*----------------------------------------*/
+/*----------------- Ball -----------------*/
+/*----------------------------------------*/
+
 struct Ball 
 {
     Vector2     pos;

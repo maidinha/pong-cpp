@@ -2,6 +2,10 @@
 #include "entities.h"
 #include <SDL3/SDL.h>
 
+/*---------------------------------------- */
+/*----------- Member Variables ----------- */
+/*---------------------------------------- */
+
 Paddle*         m_P1;
 KeyboardInput   m_InputP1;
 
@@ -16,7 +20,7 @@ Vector2         m_ScreenDimensions;
 /*---------------------------------------- */
 
 void MovePaddle             (Paddle* paddle, const KeyboardInput& KeyboardInput, const float deltaTime);
-void HandlePaddlePosition   (Paddle* paddle, const Vector2& levelSize);
+void KeepPaddleInsideBounds (Paddle* paddle, const Vector2& levelSize);
 void MoveBall               (Ball* ball, const float deltaTime);
 void HandleBallCollision    (Ball* ball, const Vector2& levelSize);
 void ResetBall              (Ball* ball);
@@ -24,6 +28,7 @@ void ResetBall              (Ball* ball);
 /*------------------------------------------*/
 /*--------- Function Declarations ----------*/
 /*------------------------------------------*/
+
 void GameStart(int screenWidth, int screenHeight)
 {
     Vector2 dimensions = {static_cast<float>(screenWidth), static_cast<float>(screenHeight)};
@@ -69,10 +74,10 @@ int ProcessInput(SDL_Event* event)
 void UpdateGame(float deltaTime)
 {
    MovePaddle(m_P1, m_InputP1, deltaTime);
-   HandlePaddlePosition(m_P1, m_ScreenDimensions);
+   KeepPaddleInsideBounds(m_P1, m_ScreenDimensions);
    
    MovePaddle(m_P2, m_InputP2, deltaTime);
-   HandlePaddlePosition(m_P2, m_ScreenDimensions);
+   KeepPaddleInsideBounds(m_P2, m_ScreenDimensions);
 
    MoveBall(m_Ball, deltaTime);
    HandleBallCollision(m_Ball, m_ScreenDimensions);
@@ -88,7 +93,7 @@ void MovePaddle(Paddle* paddle, const KeyboardInput& KeyboardInput, const float 
     paddle->pos.y += paddle->direction * paddle->speed * deltaTime;
 }
 
-void HandlePaddlePosition(Paddle* paddle, const Vector2& levelSize)
+void KeepPaddleInsideBounds(Paddle* paddle, const Vector2& levelSize)
 {
     if(paddle->pos.y < 0)
         paddle->pos.y = 0;
